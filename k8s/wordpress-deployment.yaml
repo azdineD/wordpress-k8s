@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: wordpress
-        image: lina2015/wordpress-ci:latest  # Ton image Docker Hub
+        image: image: lina2015/wordpress-k8s:latest
+                        # Ton image Docker Hub
         ports:
         - containerPort: 80
         env:

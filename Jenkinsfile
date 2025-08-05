@@ -8,9 +8,9 @@ pipeline {
     stages {
         stage('Déploiement WordPress') {
             steps {
-                sh 'kubectl apply -f wordpress-pvc.yaml'
-                sh 'kubectl apply -f wordpress-deployment.yaml'
-                sh 'kubectl apply -f wordpress-service.yaml'
+                sh 'kubectl apply -f k8s/wordpress-pvc.yaml'
+                sh 'kubectl apply -f k8s/wordpress-deployment.yaml'
+                sh 'kubectl apply -f k8s/wordpress-service.yaml'
             }
         }
 

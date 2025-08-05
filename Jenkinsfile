@@ -1,13 +1,16 @@
 pipeline {
     agent any
 
+    environment {
+        KUBECONFIG = '/root/.kube/config'
+    }
+
+    stages {
         stage('Déploiement WordPress') {
             steps {
-                script {
-                    sh 'kubectl apply -f wordpress-pvc.yaml'
-                    sh 'kubectl apply -f wordpress-deployment.yaml'
-                    sh 'kubectl apply -f wordpress-service.yaml'
-                }
+                sh 'kubectl apply -f wordpress-pvc.yaml'
+                sh 'kubectl apply -f wordpress-deployment.yaml'
+                sh 'kubectl apply -f wordpress-service.yaml'
             }
         }
 

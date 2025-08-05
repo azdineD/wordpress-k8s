@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: wordpress
-        image: lina2015/wordpress-k8s:latest
+        image: lina2015/wordpress-k8s:v1
         ports:
         - containerPort: 80
         env:

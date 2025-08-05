@@ -1,13 +1,6 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Cloner le dépôt') {
-            steps {
-                git 'https://github.com/azdineD/wordpress-k8s.git'
-            }
-        }
-
         stage('Déploiement WordPress') {
             steps {
                 script {

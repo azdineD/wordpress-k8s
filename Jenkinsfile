@@ -1,32 +1,28 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    IMAGE = "lina2015/wordpress-k8s"
-    TAG = "v1"
-  }
-
-  stages {
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t $IMAGE:$TAG .'
-      }
-    }
-
-    stage('Push to Docker Hub') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh 'echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin'
-          sh 'docker push $IMAGE:$TAG'
+    stages {
+        stage('Cloner le dépôt') {
+            steps {
+                git 'https://github.com/azdineD/wordpress-k8s.git'
+            }
         }
-      }
-    }
 
-    stage('Deploy to Kubernetes') {
-      steps {
-        sh 'kubectl apply -f k8s/deployment.yml'
-        sh 'kubectl apply -f k8s/service.yml'
-      }
+        stage('Déploiement WordPress') {
+            steps {
+                script {
+                    sh 'kubectl apply -f wordpress-pvc.yaml'
+                    sh 'kubectl apply -f wordpress-deployment.yaml'
+                    sh 'kubectl apply -f wordpress-service.yaml'
+                }
+            }
+        }
+
+        stage('Vérification') {
+            steps {
+                sh 'kubectl get pods'
+                sh 'kubectl get svc'
+            }
+        }
     }
-  }
 }
